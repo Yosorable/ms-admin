@@ -54,11 +54,9 @@ func Register(ctx context.Context, req *pb.RegisterRequest) (*pb.RegisterReply, 
 
 	salt := utils.GetUUID()
 	user := model.User{
-		Username:  req.GetUsername(),
-		Hash:      utils.Hash(req.GetPassword() + salt),
-		Salt:      salt,
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
+		Username: req.GetUsername(),
+		Hash:     utils.Hash(req.GetPassword() + salt),
+		Salt:     salt,
 	}
 	err := global.DATABASE.Create(&user).Error
 	if err != nil {
