@@ -82,5 +82,21 @@ func CreateOrUpdateUserRecord(ctx context.Context, req *pb.CreateOrUpdateUserRec
 }
 
 func DeleteUserRecord(ctx context.Context, req *pb.DeleteUserRecordRequest) (*pb.DeleteUserRecordReply, error) {
-	return nil, nil
+	tableOption := req.GetTableOption()
+	tableName, err := getTableName(tableOption)
+	if err != nil {
+		return nil, NewStatusError(err)
+	}
+	foreignIdName := tableOption.ForeignIdName
+
+	err = global.DATABASE.Exec(`
+    DELETE FROM `+packFiledForSQL(tableName)+`
+        WHERE `+packFiledForSQL("user_id")+` = ?
+        AND `+packFiledForSQL(foreignIdName)+` = ?
+    `, req.UserId, req.ForeignItemId).Error
+	if err != nil {
+		return nil, NewStatusError(err)
+	}
+
+	return &pb.DeleteUserRecordReply{}, nil
 }
