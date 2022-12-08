@@ -3,13 +3,13 @@
   "mysql": {
     "addr": "127.0.0.1:3306",
     "user": "root",
-    "password": "",
-    "db_name": ""
+    "password": "root",
+    "db_name": "ms"
   },
   "jwt": {
-    "signing_key": "",
+    "signing_key": "asjdqh123qwuie819a;sdkak]jasdi",
     "expires_time": "7d",
     "buffer_time": "1d",
-    "issuer": ""
+    "issuer": "ms"
   }
 }
