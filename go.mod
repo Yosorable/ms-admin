@@ -3,7 +3,7 @@ module github.com/Yosorable/ms-admin
 go 1.19
 
 require (
-	github.com/Yosorable/ms-shared v0.0.0-20221207125705-b8b57d02c286
+	github.com/Yosorable/ms-shared v0.0.0-20221208121331-34913c73ef05
 	github.com/golang-jwt/jwt/v4 v4.4.3
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
 	google.golang.org/grpc v1.51.0

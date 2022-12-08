@@ -27,3 +27,19 @@ func (*server) CheckToken(ctx context.Context, req *pb.CheckTokenRequest) (*pb.C
 func (*server) GetUserByID(ctx context.Context, req *pb.GetUserByIDRequest) (*pb.GetUserByIDReply, error) {
 	return handler.GetUserByID(ctx, req)
 }
+
+func (*server) CreateUserRecordTableIfNotExist(ctx context.Context, req *pb.CreateUserRecordTableIfNotExistRequest) (*pb.CreateUserRecordTableIfNotExistReply, error) {
+	return handler.CreateUserRecordTableIfNotExist(ctx, req)
+}
+
+func (*server) QueryUserRecord(ctx context.Context, req *pb.QueryUserRecordRequest) (*pb.QueryUserRecordReply, error) {
+	return handler.QueryUserRecord(ctx, req)
+}
+
+func (*server) CreateOrUpdateUserRecord(ctx context.Context, req *pb.CreateOrUpdateUserRecordRequest) (*pb.CreateOrUpdateUserRecordReply, error) {
+	return handler.CreateOrUpdateUserRecord(ctx, req)
+}
+
+func (*server) DeleteUserRecord(ctx context.Context, req *pb.DeleteUserRecordRequest) (*pb.DeleteUserRecordReply, error) {
+	return handler.DeleteUserRecord(ctx, req)
+}

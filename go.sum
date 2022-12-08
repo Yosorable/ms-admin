@@ -3,6 +3,8 @@ github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03
 github.com/DataDog/datadog-go v3.2.0+incompatible/go.mod h1:LButxg5PwREeZtORoXG3tL4fMGNddJ+vMq1mwgfaqoQ=
 github.com/Yosorable/ms-shared v0.0.0-20221207125705-b8b57d02c286 h1:rjmhDg6U+BL7FpdvgH0YNuCMq3u4lCdwwwYuiT+k+r4=
 github.com/Yosorable/ms-shared v0.0.0-20221207125705-b8b57d02c286/go.mod h1:Sa2CzqUeBmQGLBhxLOtCY/GeaUbIYIiEWBUBn7XZZTg=
+github.com/Yosorable/ms-shared v0.0.0-20221208121331-34913c73ef05 h1:iYA7fv1GvuJEB0wMPM+eUHI++tSvwLSB4QRufSNXsOg=
+github.com/Yosorable/ms-shared v0.0.0-20221208121331-34913c73ef05/go.mod h1:Sa2CzqUeBmQGLBhxLOtCY/GeaUbIYIiEWBUBn7XZZTg=
 github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
 github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
 github.com/alecthomas/units v0.0.0-20151022065526-2efee857e7cf/go.mod h1:ybxpYRFXyAe+OPACYpWeL0wqObRcbAqCMya13uyzqw0=
