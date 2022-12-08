@@ -5,6 +5,7 @@ import (
 	"time"
 
 	pb "github.com/Yosorable/ms-shared/protoc_gen/admin"
+	"github.com/Yosorable/ms-shared/protoc_gen/common"
 	"github.com/Yosorable/ms-shared/utils"
 
 	"github.com/Yosorable/ms-admin/core/model"
@@ -35,10 +36,12 @@ func Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginReply, error) {
 
 	return &pb.LoginReply{
 		User: &pb.User{
-			Id:        int32(user.ID),
-			Username:  user.Username,
-			CreatedAt: user.CreatedAt.Format("2006-01-02 15:04:05"),
-			UpdatedAt: user.UpdatedAt.Format("2006-01-02 15:04:05"),
+			Id:       int32(user.ID),
+			Username: user.Username,
+			TimeInfo: &common.TimeInfo{
+				CreatedAt: user.CreatedAt.Format("2006-01-02 15:04:05"),
+				UpdatedAt: user.UpdatedAt.Format("2006-01-02 15:04:05"),
+			},
 		},
 		JwtToken: token,
 	}, nil
@@ -98,10 +101,12 @@ func GetUserByID(ctx context.Context, req *pb.GetUserByIDRequest) (*pb.GetUserBy
 
 	return &pb.GetUserByIDReply{
 		User: &pb.User{
-			Id:        int32(user.ID),
-			Username:  user.Username,
-			CreatedAt: user.CreatedAt.Format("2006-01-02 15:04:05"),
-			UpdatedAt: user.UpdatedAt.Format("2006-01-02 15:04:05"),
+			Id:       int32(user.ID),
+			Username: user.Username,
+			TimeInfo: &common.TimeInfo{
+				CreatedAt: user.CreatedAt.Format("2006-01-02 15:04:05"),
+				UpdatedAt: user.UpdatedAt.Format("2006-01-02 15:04:05"),
+			},
 		},
 	}, nil
 }
