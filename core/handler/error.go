@@ -1,6 +1,10 @@
 package handler
 
-import "google.golang.org/grpc/status"
+import (
+	"fmt"
+
+	"google.golang.org/grpc/status"
+)
 
 var (
 	ErrorUsernameOrPassword = status.Error(7001, "用户名或密码错误")
@@ -10,4 +14,8 @@ var (
 
 func NewStatusError(err error) error {
 	return status.Error(7000, err.Error())
+}
+
+func NotNULLError(filed string) error {
+	return status.Error(7000, fmt.Sprintf("%s not allow null", filed))
 }
