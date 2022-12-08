@@ -1,0 +1,15 @@
+{
+  "service_name": "ms_admin",
+  "mysql": {
+    "addr": "127.0.0.1:3306",
+    "user": "root",
+    "password": "",
+    "db_name": ""
+  },
+  "jwt": {
+    "signing_key": "",
+    "expires_time": "7d",
+    "buffer_time": "1d",
+    "issuer": ""
+  }
+}
