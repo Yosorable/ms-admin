@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"strings"
 
@@ -13,20 +14,33 @@ func packFiledForSQL(field string) string {
 	return "`" + field + "`"
 }
 
-func CreateUserRecordTableIfNotExist(ctx context.Context, req *pb.CreateUserRecordTableIfNotExistRequest) (*pb.CreateUserRecordTableIfNotExistReply, error) {
-	if req.GetTableOption() == nil {
-		return nil, NotNULLError("table_option")
+func getTableName(tableOption *pb.UserRecordTableOption) (tableName string, err error) {
+	if tableOption == nil {
+		return "", errors.New("UserRecordTableOption is null")
 	}
-	tableOption := req.GetTableOption()
-	tableName := fmt.Sprintf(
+	adminServiceName := global.CONFIG.ServiceName
+	callerServiceName := tableOption.ServiceName
+	tableTag := tableOption.TableTag
+	if callerServiceName == "" || tableTag == "" {
+		return "", errors.New("ServiceName or TableTag is empty")
+	}
+	return fmt.Sprintf(
 		"%s_%s_%s",
-		strings.TrimPrefix(global.CONFIG.ServiceName, "ms_"),
-		strings.TrimPrefix(tableOption.ServiceName, "ms_"),
-		tableOption.TableTag,
-	)
+		strings.TrimPrefix(adminServiceName, "ms_"),
+		strings.TrimPrefix(callerServiceName, "ms_"),
+		tableTag,
+	), nil
+}
+
+func CreateUserRecordTableIfNotExist(ctx context.Context, req *pb.CreateUserRecordTableIfNotExistRequest) (*pb.CreateUserRecordTableIfNotExistReply, error) {
+	tableOption := req.GetTableOption()
+	tableName, err := getTableName(tableOption)
+	if err != nil {
+		return nil, NewStatusError(err)
+	}
 	foreignIdName := tableOption.ForeignIdName
 
-	err := global.DATABASE.Exec(`
+	err = global.DATABASE.Exec(`
         CREATE TABLE IF NOT EXISTS ` + packFiledForSQL(tableName) + ` (
             ` + packFiledForSQL("user_id") + ` int(0) NOT NULL,
             ` + packFiledForSQL(foreignIdName) + ` int(0) NOT NULL,
@@ -46,7 +60,25 @@ func QueryUserRecord(ctx context.Context, req *pb.QueryUserRecordRequest) (*pb.Q
 }
 
 func CreateOrUpdateUserRecord(ctx context.Context, req *pb.CreateOrUpdateUserRecordRequest) (*pb.CreateOrUpdateUserRecordReply, error) {
-	return nil, nil
+	tableOption := req.GetTableOption()
+	tableName, err := getTableName(tableOption)
+	if err != nil {
+		return nil, NewStatusError(err)
+	}
+	foreignIdName := tableOption.ForeignIdName
+
+	err = global.DATABASE.Exec(`
+    INSERT INTO `+packFiledForSQL(tableName)+` 
+        (`+packFiledForSQL("user_id")+`, `+packFiledForSQL(foreignIdName)+`) 
+        values (?, ?)
+        ON DUPLICATE KEY 
+        UPDATE updated_at = CURRENT_TIMESTAMP();
+    `, req.UserId, req.ForeignItemId).Error
+	if err != nil {
+		return nil, NewStatusError(err)
+	}
+
+	return &pb.CreateOrUpdateUserRecordReply{}, nil
 }
 
 func DeleteUserRecord(ctx context.Context, req *pb.DeleteUserRecordRequest) (*pb.DeleteUserRecordReply, error) {
