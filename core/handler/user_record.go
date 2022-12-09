@@ -10,7 +10,7 @@ import (
 	pb "github.com/Yosorable/ms-shared/protoc_gen/admin"
 )
 
-func packFiledForSQL(field string) string {
+func packFieldForSQL(field string) string {
 	return "`" + field + "`"
 }
 
@@ -41,12 +41,12 @@ func CreateUserRecordTableIfNotExist(ctx context.Context, req *pb.CreateUserReco
 	foreignIdName := tableOption.ForeignIdName
 
 	err = global.DATABASE.Exec(`
-        CREATE TABLE IF NOT EXISTS ` + packFiledForSQL(tableName) + ` (
-            ` + packFiledForSQL("user_id") + ` int(0) NOT NULL,
-            ` + packFiledForSQL(foreignIdName) + ` int(0) NOT NULL,
-            ` + packFiledForSQL("created_at") + ` datetime(0) DEFAULT CURRENT_TIMESTAMP,
-            ` + packFiledForSQL("updated_at") + ` datetime(0) DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-            PRIMARY KEY (` + packFiledForSQL("user_id") + `, ` + packFiledForSQL(foreignIdName) + `) USING BTREE
+        CREATE TABLE IF NOT EXISTS ` + packFieldForSQL(tableName) + ` (
+            ` + packFieldForSQL("user_id") + ` int(0) NOT NULL,
+            ` + packFieldForSQL(foreignIdName) + ` int(0) NOT NULL,
+            ` + packFieldForSQL("created_at") + ` datetime(0) DEFAULT CURRENT_TIMESTAMP,
+            ` + packFieldForSQL("updated_at") + ` datetime(0) DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY (` + packFieldForSQL("user_id") + `, ` + packFieldForSQL(foreignIdName) + `) USING BTREE
         ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
     `).Error
 	if err != nil {
@@ -68,8 +68,8 @@ func CreateOrUpdateUserRecord(ctx context.Context, req *pb.CreateOrUpdateUserRec
 	foreignIdName := tableOption.ForeignIdName
 
 	err = global.DATABASE.Exec(`
-    INSERT INTO `+packFiledForSQL(tableName)+` 
-        (`+packFiledForSQL("user_id")+`, `+packFiledForSQL(foreignIdName)+`) 
+    INSERT INTO `+packFieldForSQL(tableName)+` 
+        (`+packFieldForSQL("user_id")+`, `+packFieldForSQL(foreignIdName)+`) 
         values (?, ?)
         ON DUPLICATE KEY 
         UPDATE updated_at = CURRENT_TIMESTAMP();
@@ -90,9 +90,9 @@ func DeleteUserRecord(ctx context.Context, req *pb.DeleteUserRecordRequest) (*pb
 	foreignIdName := tableOption.ForeignIdName
 
 	err = global.DATABASE.Exec(`
-    DELETE FROM `+packFiledForSQL(tableName)+`
-        WHERE `+packFiledForSQL("user_id")+` = ?
-        AND `+packFiledForSQL(foreignIdName)+` = ?
+    DELETE FROM `+packFieldForSQL(tableName)+`
+        WHERE `+packFieldForSQL("user_id")+` = ?
+        AND `+packFieldForSQL(foreignIdName)+` = ?
     `, req.UserId, req.ForeignItemId).Error
 	if err != nil {
 		return nil, NewStatusError(err)
