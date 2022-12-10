@@ -6,16 +6,15 @@ import (
 
 	"github.com/Yosorable/ms-admin/global"
 	"github.com/Yosorable/ms-admin/init_service"
-
-	"google.golang.org/grpc"
 )
 
 func main() {
-	init_service.InitService()
+	grpcServer := init_service.InitService()
+
+	pb.RegisterAdminServer(grpcServer, &adminServer{})
+
 	mgrpc.RunRpcServerInLocalHost(
 		global.CONFIG.ServiceName,
-		func(s *grpc.Server) {
-			pb.RegisterAdminServer(s, &server{})
-		},
+		grpcServer,
 	)
 }

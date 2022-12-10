@@ -12,8 +12,8 @@ var (
 	ErrorToken              = status.Error(7003, "请重新登录")
 )
 
-func NewStatusError(err error) error {
-	return status.Error(7000, err.Error())
+func NewStatusError(err any) error {
+	return status.Error(7000, fmt.Sprintf("%v", err))
 }
 
 func NotNULLError(filed string) error {
