@@ -20,7 +20,7 @@ func Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginReply, error) {
 
 	var user model.User
 	var cnt int64
-	err := global.DATABASE.First(&user, "username = ?", req.Username).Count(&cnt).Error
+	err := global.DATABASE.First(&user, "binary username = ?", req.Username).Count(&cnt).Error
 	if err != nil || cnt != 1 || user.Hash != utils.Hash(req.Password+user.Salt) {
 		return nil, ErrorUsernameOrPassword
 	}
