@@ -28,8 +28,8 @@ func getTableName(tableOption *pb.UserRecordTableOption) (tableName string, err 
 	}
 	return fmt.Sprintf(
 		"%s_%s_%s",
-		strings.TrimPrefix(adminServiceName, "ms_"),
-		strings.TrimPrefix(callerServiceName, "ms_"),
+		strings.TrimPrefix(adminServiceName, "ms-"),
+		strings.TrimPrefix(callerServiceName, "ms-"),
 		tableTag,
 	), nil
 }
