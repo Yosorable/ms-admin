@@ -1,5 +1,5 @@
 {
-  "service_name": "ms-admin",
+  "service_name": "ms_admin",
   "mysql": {
     "addr": "127.0.0.1:3306",
     "user": "root",
